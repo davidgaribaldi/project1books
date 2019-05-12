@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template
+from flask import Flask, session, render_template, request
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -26,13 +26,19 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return render_template("home.html")
+    return render_template("index.html")
 @app.route("/register", methods=["POST"])
 def register():
     username = request.form.get("username")
-    return render_template("register.html")
-@app.route("/welcome.php")
-def welcome():
-    username = db.
-    return render_template()
+    password = request.form.get("password")
+    email = request.form.get("email")
+    if db.execute("SELECT * FROM users WHERE username = :username", {"username": str(username)}).rowcount == 1:
+        return render_template("error.html", message="This username already exists")
+    if db.execute("SELECT * FROM users WHERE email = :email", {"email": email}).rowcount == 1:
+        return render_template("error.html", message="This email has already been used")
+    db.execute("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)",
+        {"username": username, "password": password, "email": email})
+    db.commit()
+    return render_template("success.html")
+
 
