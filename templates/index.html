@@ -1,13 +1,27 @@
 {% extends "layout.html" %}
+
+{% block buttons %}
+
+	<div class="indexbuttons">
+		<a class="btn btn-primary" href="login" role="button">Login Now</a>
+		<a class="btn btn-primary" href="register" role="button">Register</a>
+	</div>
+
+{% endblock %}
+
 {% block content %}
-
-<form action="{{ url_for('register') }}" method="post">
-	<div class="form-group">
-		<input class="form-control" name="username" placeholder="Username">
-		<input class="form-control" name="password" placeholder="Password">
-		<input class="form-control" name="email"	placeholder="Email">
-		<button class="btn btn-primary">Register</button>
-	</div>		
-</form>
-
+	<div class="row">
+		<div class="col-sm-12">
+			<h1> Welcome!</h1>
+		</div>
+	</div>
+	
+	<div class="col-span-6">
+		<p>
+			If you haven't registered yet please feel free to join the community
+		</p>
+		<p>
+			Otherwise welcome back!
+		</p>
+	</div>
 {% endblock %}

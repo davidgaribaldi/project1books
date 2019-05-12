@@ -5,8 +5,29 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
 		</head>
+		<style>
+			.indexbuttons {
+			font_size: 32pt;
+			top: 0;
+			right: 0;
+			}
+			.col-sm-12 {
+				text-align: center;
+			}
+		</style>
 		<body>
+		<div class="container">
+			<div class="jumbotron">
+				<h1> David's Book Website </h1>
+				{% block buttons %}
+				{% endblock %}
+			</div>
+			
 		{% block content%}
 		{% endblock %}
+		</div>
 		</body>
 	</html>
+	
+
+		

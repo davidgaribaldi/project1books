@@ -27,8 +27,24 @@ db = scoped_session(sessionmaker(bind=engine))
 @app.route("/")
 def index():
     return render_template("index.html")
-@app.route("/register", methods=["POST"])
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/signin", methods=["POST"])
+def signin():
+    username = request.form.get("username")
+    password = request.form.get("password")
+    if db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username" :username, "password": password}):
+        return "Valid Credentials"
+    else:
+        return "Not valid username or password"
+
+@app.route("/register")
 def register():
+    return render_template("register.html")
+@app.route("/signup", methods=["POST"])
+def signup():
     username = request.form.get("username")
     password = request.form.get("password")
     email = request.form.get("email")
