@@ -3,8 +3,12 @@
 {% block buttons %}
 
 	<div class="indexbuttons">
-		<a class="btn btn-primary" href="login" role="button">Login Now</a>
-		<a class="btn btn-primary" href="register" role="button">Register</a>
+		{{ login }}
+		{{ register }}
+		{{ logout }}
+	</div>
+	<div class=LogInMessage>
+		{{ message }}
 	</div>
 
 {% endblock %}
@@ -16,12 +20,14 @@
 		</div>
 	</div>
 	
-	<div class="col-span-6">
-		<p>
-			If you haven't registered yet please feel free to join the community
-		</p>
-		<p>
-			Otherwise welcome back!
-		</p>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<h3> Top Rated </h3>
+			</div>
+			<div class="col-sm-6">
+				<h3> Recently Reviewed Books </h3>
+			</div>
+		</div>
 	</div>
 {% endblock %}

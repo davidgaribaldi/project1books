@@ -6,23 +6,51 @@
 			<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
 		</head>
 		<style>
+			.LogInMessage {
+				text-align: right
+			}
 			.indexbuttons {
 			font_size: 32pt;
-			top: 0;
-			right: 0;
+			position: absolute;
+			bottom: 5px;
+			right: 5px;
 			}
-			.col-sm-12 {
+			.search {
+				position: absolute;
+				bottom: 5px;
+				left: 15px;
+			}
+			.col-sm-12, .col-sm-6 h3 {
 				text-align: center;
 			}
+			.jumbotron {
+				background-image: url("https://martijnscheijbeler.com/wp-content/uploads/2018/01/books.jpg");
+				background-position: -100px -100px;
+				position: relative;			
+			}
+			.btn.btn-primary {
+				color: black; 
+			}
+			.jumbotron, .btn.btn-primary {
+				text-shadow: 
+							-1px -1px 0 white,
+							 1px -1px 0 white,
+							-1px 1px 0 white,
+							 1px 1px 0 white;
+			}
+			
 		</style>
 		<body>
 		<div class="container">
 			<div class="jumbotron">
 				<h1> David's Book Website </h1>
+					<div class="search">
+							<input type="text" placeholder="Search..." >
+							<a class="btn btn-primary" href="results" role="button">Search</a>
+					</div>
 				{% block buttons %}
 				{% endblock %}
 			</div>
-			
 		{% block content%}
 		{% endblock %}
 		</div>

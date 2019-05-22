@@ -1,5 +1,14 @@
 {% extends "layout.html" %}
 
+{% block buttons %}
+
+	<div class="indexbuttons">
+		<a class="btn btn-primary" href="register" role="button">Register</a>
+	</div>
+
+{% endblock %}
+
+
 {% block content %}
 
 <form action="{{ url_for('signin') }}" method="post">

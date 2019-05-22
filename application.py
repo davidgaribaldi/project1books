@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect, url_for, Markup
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -26,7 +26,13 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if 'username' in session:
+        username = session['username']
+        value = Markup('<a class="btn btn-primary" href="logout" role="button">Logout</a>')
+        return render_template("index.html", message='Logged in as ' + username, logout=value)
+    login = Markup('<a class="btn btn-primary" href="login" role="button">Login Now</a>')
+    register = Markup('<a class="btn btn-primary" href="register" role="button">Register</a>')
+    return render_template("index.html", login=login, register=register)
 @app.route("/login")
 def login():
     return render_template("login.html")
@@ -35,10 +41,15 @@ def login():
 def signin():
     username = request.form.get("username")
     password = request.form.get("password")
-    if db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username" :username, "password": password}):
-        return "Valid Credentials"
+    if db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username":  str(username), "password": str(password)}).rowcount == 1:
+        session['username'] = username
+        return redirect(url_for('index'))
     else:
         return "Not valid username or password"
+@app.route("/logout")
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 @app.route("/register")
 def register():
@@ -46,15 +57,20 @@ def register():
 @app.route("/signup", methods=["POST"])
 def signup():
     username = request.form.get("username")
+    session['username'] = username
     password = request.form.get("password")
     email = request.form.get("email")
     if db.execute("SELECT * FROM users WHERE username = :username", {"username": str(username)}).rowcount == 1:
         return render_template("error.html", message="This username already exists")
-    if db.execute("SELECT * FROM users WHERE email = :email", {"email": email}).rowcount == 1:
+    elif db.execute("SELECT * FROM users WHERE email = :email", {"email": email}).rowcount == 1:
         return render_template("error.html", message="This email has already been used")
-    db.execute("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)",
+    elif len(password) < 6:
+        return render_template("error.html", message="Passwords must be at least 6 characters")
+    else:
+        db.execute("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)",
         {"username": username, "password": password, "email": email})
-    db.commit()
-    return render_template("success.html")
+        session['username'] = username
+        db.commit()
+    return redirect(url_for('index'))
 
 

@@ -1,0 +1,9 @@
+DROP TABLE books;
+
+CREATE TABLE books (
+id SERIAL PRIMARY KEY,
+ISBN CHAR (10) NOT NULL,
+title VARCHAR (55) NOT NULL,
+author VARCHAR (55) NOT NULL,
+pub_year int NOT NULL
+);
