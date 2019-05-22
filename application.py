@@ -29,7 +29,8 @@ def index():
     if 'username' in session:
         username = session['username']
         value = Markup('<a class="btn btn-primary" href="logout" role="button">Logout</a>')
-        return render_template("index.html", message='Logged in as ' + username, logout=value)
+        search = Markup('<input type="text" name="search" placeholder="Search..." ><a class="btn btn-primary" href="results" role="button">Search</a>')
+        return render_template("index.html", message='Logged in as ' + username, logout=value, search=search)
     login = Markup('<a class="btn btn-primary" href="login" role="button">Login Now</a>')
     register = Markup('<a class="btn btn-primary" href="register" role="button">Register</a>')
     return render_template("index.html", login=login, register=register)
